@@ -73,6 +73,7 @@ public class AwaGUI implements IGUIWrapper
                 }
                 AwaGUI.this.awas.add(new Awa(AwaGUI.this.turn, e.getRawSlot()));
                 AwaGUI.this.update(e.getRawSlot());
+                AwaGUI.this.turn=!AwaGUI.this.turn;
               }
             }
           }
@@ -263,7 +264,7 @@ public class AwaGUI implements IGUIWrapper
     if (this.pages.contains(this.p.getOpenInventory().getTopInventory())) {
       this.p.closeInventory();
     }
-    if (this.pages.contains(this.p.getOpenInventory().getTopInventory())) {
+    if (this.pages.contains(this.target.getOpenInventory().getTopInventory())) {
       this.target.closeInventory();
     }
   }
