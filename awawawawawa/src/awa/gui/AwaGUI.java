@@ -59,18 +59,21 @@ public class AwaGUI implements IGUIWrapper
           if (e.getClick() != ClickType.LEFT) {
             return;
           }
-          final int[] xy = AwaGUI.this.slotToXY(e.getRawSlot());
-          if ((xy[0] >= 0) && (xy[0] <= 2) && (xy[1] >= 0) && (xy[1] <= 2)) {
-            if (e.getCurrentItem().getType() == Material.AIR) {
-              if (AwaGUI.this.turn) {
-                e.getClickedInventory().setItem(e.getRawSlot(),
-                    new ItemBuilder().setType(Material.WOOL).setAmount(1).setDamage((short) 14).create());
-              } else {
-                e.getClickedInventory().setItem(e.getRawSlot(),
-                    new ItemBuilder().setType(Material.WOOL).setAmount(1).setDamage((short) 15).create());
+          if ((AwaGUI.this.turn && e.getWhoClicked().equals(AwaGUI.this.p))
+              || (!AwaGUI.this.turn && e.getWhoClicked().equals(AwaGUI.this.target))) {
+            final int[] xy = AwaGUI.this.slotToXY(e.getRawSlot());
+            if ((xy[0] >= 0) && (xy[0] <= 2) && (xy[1] >= 0) && (xy[1] <= 2)) {
+              if (e.getCurrentItem().getType() == Material.AIR) {
+                if (AwaGUI.this.turn) {
+                  e.getClickedInventory().setItem(e.getRawSlot(),
+                      new ItemBuilder().setType(Material.WOOL).setAmount(1).setDamage((short) 14).create());
+                } else {
+                  e.getClickedInventory().setItem(e.getRawSlot(),
+                      new ItemBuilder().setType(Material.WOOL).setAmount(1).setDamage((short) 15).create());
+                }
+                AwaGUI.this.awas.add(new Awa(AwaGUI.this.turn, e.getRawSlot()));
+                AwaGUI.this.update(e.getRawSlot());
               }
-              AwaGUI.this.awas.add(new Awa(AwaGUI.this.turn, e.getRawSlot()));
-              AwaGUI.this.update(e.getRawSlot());
             }
           }
         }
@@ -123,7 +126,7 @@ public class AwaGUI implements IGUIWrapper
     final int[] xy = this.slotToXY(slot);
     final boolean ct = this.getAwaBySlot(slot).turn;
     int count = 0;
-    for (int x = xy[0]; x >= 0; x--) {
+    for (int x = xy[0] - 1; x >= 0; x--) {
       if (count >= 2) {
         break;
       }
@@ -131,7 +134,7 @@ public class AwaGUI implements IGUIWrapper
         count++;
       }
     }
-    for (int x = xy[0]; x <= 2; x++) {
+    for (int x = xy[0] + 1; x <= 2; x++) {
       if (count >= 2) {
         break;
       }
@@ -144,7 +147,7 @@ public class AwaGUI implements IGUIWrapper
       return;
     }
     count = 0;
-    for (int y = xy[1]; y >= 0; y--) {
+    for (int y = xy[1] - 1; y >= 0; y--) {
       if (count >= 2) {
         break;
       }
@@ -152,7 +155,7 @@ public class AwaGUI implements IGUIWrapper
         count++;
       }
     }
-    for (int y = xy[1]; y <= 2; y++) {
+    for (int y = xy[1] + 1; y <= 2; y++) {
       if (count >= 2) {
         break;
       }
@@ -165,7 +168,7 @@ public class AwaGUI implements IGUIWrapper
       return;
     }
     count = 0;
-    for (int x = xy[0], y = xy[1]; (x >= 0) && (y >= 0); x--, y--) {
+    for (int x = xy[0] - 1, y = xy[1] - 1; (x >= 0) && (y >= 0); x--, y--) {
       if (count >= 2) {
         break;
       }
@@ -173,7 +176,7 @@ public class AwaGUI implements IGUIWrapper
         count++;
       }
     }
-    for (int x = xy[0], y = xy[1]; (x <= 2) && (y <= 2); x++, y++) {
+    for (int x = xy[0] + 1, y = xy[1] + 1; (x <= 2) && (y <= 2); x++, y++) {
       if (count >= 2) {
         break;
       }
@@ -186,7 +189,7 @@ public class AwaGUI implements IGUIWrapper
       return;
     }
     count = 0;
-    for (int x = xy[0], y = xy[1]; (x >= 0) && (y >= 0); x--, y++) {
+    for (int x = xy[0] - 1, y = xy[1] + 1; (x >= 0) && (y >= 0); x--, y++) {
       if (count >= 2) {
         break;
       }
@@ -194,7 +197,7 @@ public class AwaGUI implements IGUIWrapper
         count++;
       }
     }
-    for (int x = xy[0], y = xy[1]; (x <= 2) && (y <= 2); x++, y--) {
+    for (int x = xy[0] + 1, y = xy[1] - 1; (x <= 2) && (y <= 2); x++, y--) {
       if (count >= 2) {
         break;
       }
