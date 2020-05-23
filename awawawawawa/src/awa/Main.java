@@ -25,7 +25,7 @@ public class Main extends JavaPlugin
   }
   public AwaGUI open(String p,String target)
   {
-    AwaGUI gui=new AwaGUI(Bukkit.getPlayer(UUID.fromString(p)),Bukkit.getPlayer(UUID.fromString(target)));
+    AwaGUI gui=new AwaGUI(Bukkit.getPlayer(UUID.fromString(p)),3,2,3,Bukkit.getPlayer(UUID.fromString(target)));
     gui.open();
     return gui;
   }
